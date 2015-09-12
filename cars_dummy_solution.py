@@ -17,9 +17,16 @@ for i in range(M+1):
         print("{:2d} ".format(policy[i][j]), end='')
     print()
 
+par1krent = []
+park2rent = []
+park1back = []
+park2back = []
 
 def pss(n, lam):
     return ((lam**n)/factorial(n))*exp(1)**-lam
 
 States = [[0 for x in range(21)] for x in range(21)]
-actions = [x for x in range(-5, 6)]
+actions = [x for x in range(-5, 5)]
+
+for x in range(20):
+    print(pss(x, 3))
