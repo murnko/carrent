@@ -6,11 +6,11 @@
 
 
 
-
-M = 20
-policy = random.randint(-5, 5, (M+1, M+1))
-
-for i in range(M+1):
-    for j in range(M+1):
-        print("{:2d} ".format(policy[i][j]), end='')
-    print()
+ for i in range(len(park2rent)):
+    for j in range(len(park2back)):
+        if i <= y-a:
+            hajs += i * 100 * park2rent[i]
+        else:
+            if i <= y-a+j:
+                hajs += (y-a) * 100 * park2rent[i]
+                hajs += (i - y + a)*100*park2rent[i]*park2back[j]

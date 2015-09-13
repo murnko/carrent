@@ -19,10 +19,18 @@ for x in range(21):
     pr = pss(x, 4)
     park2rent.append(pr)
 
+
+
 def printer(matrix):
     for i in range(21):
         for j in range(21):
             print("{:2d} ".format(matrix[i][j]), end='')
+        print()
+
+def printer_f(matrix):
+    for i in range(21):
+        for j in range(21):
+            print("{:2f} ".format(matrix[i][j]), end='')
         print()
 
         # wstepne obliczenie to iteracja prawdopodobienstw zwrotow j na prawd. "wziasciow" i
