@@ -2,7 +2,7 @@
 from math import *
 
 def pss(n, lam):
-    return ((lam**n)/factorial(n))*exp(1)**-lam
+    return ((lam**n)/factorial(n))*exp(-lam)
 
 #  prawdopodobienstwa wg poissona
 park1rent = []  # 3
@@ -10,7 +10,7 @@ park2rent = []  # 4
 park1back = []  # 3
 park2back = []  # 2
 
-for x in range(21):
+for x in range(9):
     pr = pss(x, 2)
     park2back.append(pr)
     pr = pss(x, 3)

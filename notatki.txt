@@ -14,3 +14,15 @@
             if i <= y-a+j:
                 hajs += (y-a) * 100 * park2rent[i]
                 hajs += (i - y + a)*100*park2rent[i]*park2back[j]
+
+
+for i in range(len(park2rent)):
+    for j in range(len(park2back)):
+        if i <= y-a:
+            hajsy += i * 100 * park2rent[i]
+        else:
+            if i <= y-a+j:
+                hajsy += (y-a) * 100 * park2rent[i]
+                hajsy += (i - y + a)*100*park2rent[i]*park2back[j]
+            else:
+                hajsy += (y-a+j) * 100 * park1rent[i]
