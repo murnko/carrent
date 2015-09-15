@@ -11,46 +11,39 @@ Actions = [x for x in range(-5, 5)]
 values = [[0 for x in range(M)] for x in range(M)]
 policy = [[1 for x in range(M)] for x in range(M)]
 reward = [[0 for x in range(M)] for x in range(M)]
-changes = 1
+
 
 for x in range(M):  # to bedzie najbardziej zawila petla od czasu odwroconego wahadla
         for y in range(M):
             hajsy = 0
+            hajsy2 = 0
             for i in range(len(park1rent)):
-                    if i <= x:
-                        hajsy += i * 100
-                    else:
-                        hajsy += x * 100
-
-            for i in range(len(park2rent)):
-                    if i <= y:
-                        hajsy += i * 100
-                    else:
-                        hajsy += y * 100
-            reward[x][y] = hajsy
+                for j in range(len(park2rent)):
+                    hajsy += min(i, x)*100*park1rent[i] + min(j, y)*100*park2rent[j]
+                    print(hajsy)
+                hajsy2 += hajsy
+                print(hajsy2)
+            reward[x][y] = hajsy2/441
+printer_f(reward)
 z = 0
-while changes == 1:
-
+iterate = 1
+while iterate == 1:
     z += 1
     policy = copy.deepcopy(new_policy)
-
     for x in range(M):
         for y in range(M):
             hajsy = []
             for a in Actions:
                 hajs = 0
-                for i in range(len(park1back)):
-                    for k in range(len(park2back)):
-                        for j in range(len(park1rent)):
-                            for l in range(len(park2rent)):
-                                if a > y+k-l or -a > x+i-j:
-                                    continue
-                                stan1 = 20 if (x+a+i-j) >= 20 else 0 if (x+a+i-j) <= 0 else x+a+i-j
-                                stan2 = 20 if (y-a+k-l) >= 20 else 0 if (y-a+k-l) <= 0 else y-a+k-l
-                                prob = park1back[i]*park2back[k]*park1rent[j]*park2rent[l]
-                                hajs += prob * (reward[x][y] - (abs(a)*20) + values[stan1][stan2])
+                for (cars1, prob1) in change1.items():
+                    for (cars2, prob2) in change2.items():
+                        if a > y+cars2 or -a > x+cars1:
+                            continue
+                        stan1 = 20 if (x+a+cars1) >= 20 else 0 if (x+a+cars1) <= 0 else x+a+cars1
+                        stan2 = 20 if (y-a+cars2) >= 20 else 0 if (y-a+cars2) <= 0 else y-a+cars2
+                        prob = prob1 * prob2
+                        hajs += prob * (reward[x][y] - (abs(a)*20) + values[stan1][stan2])
                 hajsy.append(0.9*hajs)
-
             #print(hajsy)
             s = max(hajsy)
             for i, j in enumerate(hajsy):
@@ -58,30 +51,30 @@ while changes == 1:
                     new_policy[x][y] = Actions[i]
 
     print("\n"+"Iteracja" + str(z))
-    changes = 0
+    iterate = diff = 0
     for x in range(M):
         for y in range(M):
             if not (policy[x][y] == new_policy[x][y]):
-                changes = 1
+                iterate = 1
+                diff += 1
     printer(new_policy)
+    print(diff)
 
-    if changes == 0:
+    if iterate == 0:
         break
 
     for x in range(M):
         for y in range(M):
             a = new_policy[x][y]
             hajs = 0
-            for i in range(len(park1back)):
-                for k in range(len(park2back)):
-                    for j in range(len(park1rent)):
-                        for l in range(len(park2rent)):
-                            if a > y+k-l or -a > x+i-j:
-                                continue
-                            stan1 = 20 if (x+a+i-j) >= 20 else 0 if (x+a+i-j) <= 0 else x+a+i-j
-                            stan2 = 20 if (y-a+k-l) >= 20 else 0 if (y-a+k-l) <= 0 else y-a+k-l
-                            prob = park1back[i]*park2back[k]*park1rent[j]*park2rent[l]
-                            hajs += 0.9 * prob * (reward[x][y] - (abs(a)*20) + values[stan1][stan2])
-            values[x][y] = hajs
+            for (cars1, prob1) in change1.items():
+                for (cars2, prob2) in change2.items():
+                    if a > y+cars2 or -a > x+cars1:
+                        continue
+                    stan1 = 20 if (x+a+cars1) >= 20 else 0 if (x+a+cars1) <= 0 else x+a+cars1
+                    stan2 = 20 if (y-a+cars2) >= 20 else 0 if (y-a+cars2) <= 0 else y-a+cars2
+                    prob = prob1 * prob2
+                    hajs += prob * (reward[x][y] - (abs(a)*20) + values[stan1][stan2])
+            values[x][y] = 0.9*hajs
 
 

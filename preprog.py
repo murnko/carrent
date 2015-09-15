@@ -10,7 +10,7 @@ park2rent = []  # 4
 park1back = []  # 3
 park2back = []  # 2
 
-for x in range(9):
+for x in range(21):
     pr = pss(x, 2)
     park2back.append(pr)
     pr = pss(x, 3)
@@ -19,7 +19,15 @@ for x in range(9):
     pr = pss(x, 4)
     park2rent.append(pr)
 
+change1 = {}
+for i in range(len(park1back)):
+    for j in range(len(park1rent)):
+        change1[i - j] = change1.get(i-j, 0) + park1back[i]*park1rent[j]
 
+change2 = {}
+for i in range(len(park2back)):
+    for j in range(len(park2rent)):
+        change2[i - j] = change2.get(i-j, 0) + park2back[i]*park2rent[j]
 
 def printer(matrix):
     for i in range(21):
@@ -33,5 +41,3 @@ def printer_f(matrix):
             print("{:2f} ".format(matrix[i][j]), end='')
         print()
 
-        # wstepne obliczenie to iteracja prawdopodobienstw zwrotow j na prawd. "wziasciow" i
-        # przy sprawdzaniu warunku i <= x+j+a; przy czym a zmienia znak dla parkingu drugiego
