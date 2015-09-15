@@ -23,13 +23,28 @@ for x in range(M):  # to bedzie najbardziej zawila petla od czasu odwroconego wa
                     print(hajsy)
                 hajsy2 += hajsy
                 print(hajsy2)
-            reward[x][y] = hajsy2/441
+            reward[x][y] = hajsy2/1881
 printer_f(reward)
 z = 0
 iterate = 1
 while iterate == 1:
     z += 1
     policy = copy.deepcopy(new_policy)
+
+    for x in range(M):
+        for y in range(M):
+            a = new_policy[x][y]
+            hajs = 0
+            for (cars1, prob1) in change1.items():
+                for (cars2, prob2) in change2.items():
+                    if a > y+cars2 or -a > x+cars1:
+                        continue
+                    stan1 = 20 if (x+a+cars1) >= 20 else 0 if (x+a+cars1) <= 0 else x+a+cars1
+                    stan2 = 20 if (y-a+cars2) >= 20 else 0 if (y-a+cars2) <= 0 else y-a+cars2
+                    prob = prob1 * prob2
+                    hajs += prob * (reward[x][y] - (abs(a)*20) + values[stan1][stan2])
+            values[x][y] = 0.9*hajs
+
     for x in range(M):
         for y in range(M):
             hajsy = []
@@ -63,18 +78,6 @@ while iterate == 1:
     if iterate == 0:
         break
 
-    for x in range(M):
-        for y in range(M):
-            a = new_policy[x][y]
-            hajs = 0
-            for (cars1, prob1) in change1.items():
-                for (cars2, prob2) in change2.items():
-                    if a > y+cars2 or -a > x+cars1:
-                        continue
-                    stan1 = 20 if (x+a+cars1) >= 20 else 0 if (x+a+cars1) <= 0 else x+a+cars1
-                    stan2 = 20 if (y-a+cars2) >= 20 else 0 if (y-a+cars2) <= 0 else y-a+cars2
-                    prob = prob1 * prob2
-                    hajs += prob * (reward[x][y] - (abs(a)*20) + values[stan1][stan2])
-            values[x][y] = 0.9*hajs
+
 
 
