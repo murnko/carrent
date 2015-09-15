@@ -19,11 +19,11 @@ for x in range(M):  # to bedzie najbardziej zawila petla od czasu odwroconego wa
             hajsy2 = 0
             for i in range(len(park1rent)):
                 for j in range(len(park2rent)):
-                    hajsy += min(i, x)*100*park1rent[i] + min(j, y)*100*park2rent[j]
+                    hajsy += min(i, x)*100 + min(j, y)*100*park2rent[j]
                     print(hajsy)
-                hajsy2 += hajsy
+                hajsy2 += hajsy*park1rent[i]
                 print(hajsy2)
-            reward[x][y] = hajsy2/1881
+            reward[x][y] = hajsy2/
 printer_f(reward)
 z = 0
 iterate = 1
